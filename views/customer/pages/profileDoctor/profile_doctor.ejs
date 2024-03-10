@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <%- include('../../layouts/header'); -%>
+
+    <div class="doctor-info-container">
+      <div class="doctor-info">
+        <h1>Khám chuyên khoa / <%= doctorInfo.Specialty1 %></h1>
+        <% if (doctorInfo) { %>
+        <p><strong>Tên bác sĩ:</strong> <%= doctorInfo.Name %></p>
+        <p><strong>Email:</strong> <%= doctorInfo.Email %></p>
+        <p><strong>Số điện thoại:</strong> <%= doctorInfo.Phone %></p>
+        <p><strong>Địa chỉ:</strong> <%= doctorInfo.Address %></p>
+        <p><strong>Chuyên khoa:</strong> <%= doctorInfo.Specialty1 %></p>
+        <p><strong>Đa khoa:</strong> <%= doctorInfo.Specialty2 %></p>
+        <% } else { %>
+        <p>Không có thông tin bác sĩ.</p>
+        <% } %>
+      </div>
+
+      <div class="room-number">
+        <h2>Số phòng: <%= doctorInfo.Room_Number %></h2>
+        <% function getNextDate(daysToAdd) { var nextDate = new Date();
+        nextDate.setDate(nextDate.getDate() + daysToAdd); return nextDate; }
+        function formatDate(date) { var day = date.getDate(); var month =
+        date.getMonth() + 1; var year = date.getFullYear(); return day + '/' +
+        month + '/' + year; } %>
+      </div>
+
+      <div class="date">
+        <h2>Lịch Khám</h2>
+
+        <select id="selectedDate" onchange="highlightAppointments()">
+          <% for (let i = 1; i <= 7; i++) { %>
+          <option value="<%= formatDate(getNextDate(i)) %>">
+            <%= formatDate(getNextDate(i)) %>
+          </option>
+          <% } %>
+        </select>
+
+        <ul>
+          <li>
+            <a
+              href="#"
+              id="timeSlot7_00-8_00"
+              onclick="redirectToAppointment('7:00-8:00')"
+              >7:00-8:00</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="timeSlot8_00-9_00"
+              onclick="redirectToAppointment('8:00-9:00')"
+              >8:00-9:00</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="timeSlot9_00-10_00"
+              onclick="redirectToAppointment('9:00-10:00')"
+              >9:00-10:00</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="timeSlot10_00-11_00"
+              onclick="redirectToAppointment('10:00-11:00')"
+              >10:00-11:00</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="timeSlot13_00-14_00"
+              onclick="redirectToAppointment('13:00-14:00')"
+              >13:00-14:00</a
+            >
+          </li>
+
+          <li>
+            <a
+              href="#"
+              id="timeSlot14_00-15_00"
+              onclick="redirectToAppointment('14:00-15:00')"
+              >14:00-15:00</a
+            >
+          </li>
+
+          <li>
+            <a
+              href="#"
+              id="timeSlot15_00-16_00"
+              onclick="redirectToAppointment('15:00-16:00')"
+              >15:00-16:00</a
+            >
+          </li>
+
+          <li>
+            <a
+              href="#"
+              id="timeSlot16_00-17_00"
+              onclick="redirectToAppointment('16:00-17:00')"
+              >16:00-17:00</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <script>
+        var appointmentInfo = JSON.parse(
+          decodeURIComponent(
+            "<%= encodeURIComponent(JSON.stringify(appointmentInfo)) %>"
+          )
+        );
+
+        console.log(appointmentInfo);
+
+        function highlightAppointments() {
+          var selectedDate = document.getElementById("selectedDate").value;
+          var timeSlots = [
+            "7:00-8:00",
+            "8:00-9:00",
+            "9:00-10:00",
+            "10:00-11:00",
+            "13:00-14:00",
+            "14:00-15:00",
+            "15:00-16:00",
+            "16:00-17:00",
+          ];
+
+          // Reset all time slots to default color and text decoration
+          timeSlots.forEach(function (timeSlot) {
+            var selector = "#timeSlot" + timeSlot.replace(/:/g, "_");
+            var element = document.querySelector(selector);
+            console.log(selector, element);
+
+            console.log(element);
+            if (element) {
+              element.classList.remove("highlighted");
+              element.classList.add("time-slot");
+
+              // Vô hiệu hóa thẻ <a> bằng cách ngăn chặn sự kiện chuột
+              element.style.pointerEvents = "auto";
+            }
+          });
+
+          // Check if there are appointments for the selected date and time slots, then highlight them
+          appointmentInfo.forEach(function (appointment) {
+            var selector = "#timeSlot" + appointment.time.replace(/:/g, "_");
+            var element = document.querySelector(selector);
+            if (
+              element &&
+              appointment.date === selectedDate &&
+              timeSlots.includes(appointment.time)
+            ) {
+              element.classList.add("highlighted");
+              element.classList.remove("time-slot");
+
+              // Thêm lớp highlighted vào thẻ <a>
+              element.classList.add("highlight");
+
+              // Vô hiệu hóa thẻ <a> bằng cách ngăn chặn sự kiện chuột
+              element.style.pointerEvents = "none";
+            }
+          });
+        }
+
+        function redirectToAppointment(selectedTime) {
+          var doctorId = "<%= doctorInfo.User_Id %>";
+          var selectedDate = document.getElementById("selectedDate").value;
+          var url = `/doctor/${doctorId}/appointment?date=${selectedDate}&time=${selectedTime}`;
+          window.location.href = url;
+        }
+
+        // Call highlightAppointments on page load to initialize highlighting
+        window.onload = function () {
+          highlightAppointments();
+        };
+
+        console.log(appointmentInfo);
+      </script>
+
+      <h2 id="cost">Chi phí khám: 300.000đ</h2>
+    </div>
+    <%- include('../../layouts/footer'); -%>
+  </body>
+</html>

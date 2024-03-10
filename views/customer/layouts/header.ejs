@@ -1,0 +1,22 @@
+<header id="header-customer">
+  <div class="logo">
+    <a href="/">Healthcare</a>
+  </div>
+  <div class="link">
+    <ul>
+      <li><a href="/">Trang chủ</a></li>
+      <li><a href="">Bác sĩ</a></li>
+      <li><a href="">Phòng khám</a></li>
+      <li><a href="">Lịch hẹn</a></li>
+    </ul>
+  </div>
+  <div class="login">
+    <% if (!user || !user.email) { %>
+    <a id="btn-register" href="/register">Đăng ký</a>
+    <a id="btn-login" href="/login">Đăng nhập</a>
+    <% } else { %>
+    <p>Xin chào, <%= user.email %>!</p>
+    <a id="btn-logout" href="/logout">Đăng xuất</a>
+    <% } %>
+  </div>
+</header>

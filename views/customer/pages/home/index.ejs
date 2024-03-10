@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <%- include('../../layouts/header'); -%>
+
+    <div class="heroes">
+      <div class="heroes-text">
+        <h3>Chào mừng bạn đến với HealthCare</h3>
+        <p>
+          Tìm kiếm dịch vụ <br />chăm sóc sức khỏe <br />
+          gần nhất.
+        </p>
+      </div>
+      <div class="heroes-img">
+        <img src="/images/hero-banner.png" alt="" srcset="" />
+      </div>
+    </div>
+
+    <div class="specialy-popular">
+      <h1>Chuyên khoa</h1>
+      <ul>
+        <li>
+          <img src="/images/icon-2.png" alt="" />
+          Cơ xương khớp
+        </li>
+        <li><img src="/images/icon-7.png" alt="" /> Thần kinh</li>
+        <li><img src="/images/icon-4.png" alt="" /> Tiêu hóa</li>
+        <li><img src="/images/icon-5.png" alt="" /> Tim mạch</li>
+        <li><img src="/images/icon-6.png" alt="" /> Tai mũi họng</li>
+      </ul>
+    </div>
+
+    <div class="doctor-popular">
+      <h1>Bác sĩ nổi bật</h1>
+      <ul>
+        <% doctors.forEach(doctor => { %>
+        <li>
+          <a href="/doctor/<%= doctor.User_Id %>">
+            <%= doctor.Name %>
+            <br />
+            Chuyên khoa: <%= doctor.Specialty1 %>
+            <br />
+            Đa khoa: <%= doctor.Specialty2 %>
+          </a>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <%- include('../../layouts/footer'); -%>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .login-container {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+      }
+
+      h2 {
+        color: #333;
+      }
+
+      label {
+        display: block;
+        margin: 10px 0 5px;
+        text-align: left;
+      }
+
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        background-color: #00adb3;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #005761;
+      }
+
+      .success-flash {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 15px;
+        border-radius: 4px;
+        animation: slideInRight 0.5s ease-out, fadeOut 0.5s 2.5s forwards;
+      }
+
+      .error-flash {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 4px;
+        animation: slideInRight 0.5s ease-out, fadeOut 0.5s 2.5s forwards;
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(100%);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Đăng nhập Admin</h2>
+
+      <form action="/admin/login" method="post">
+        <label for="email">Địa chỉ email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="password">Mật khẩu:</label>
+        <input type="password" id="password" name="password" required />
+
+        <% if (messages.success) { %>
+        <div
+          id="flash-message"
+          class="success-flash"
+          style="color: green; margin-bottom: 10px"
+        >
+          <%= messages.success %>
+        </div>
+        <% } %> <% if (messages.error) { %>
+        <div
+          id="flash-message"
+          class="error-flash"
+          style="color: red; margin-bottom: 10px"
+        >
+          <%= messages.error %>
+        </div>
+        <% } %>
+        <button type="submit">Đăng nhập</button>
+      </form>
+    </div>
+    <script>
+      setTimeout(function () {
+        document.querySelector(".success-flash").style.display = "none";
+        document.querySelector(".error-flash").style.display = "none";
+      }, 4000);
+    </script>
+  </body>
+</html>

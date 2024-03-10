@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+      }
+
+      .sidebar {
+        width: 250px;
+        height: 100vh;
+        background-color: #343a40;
+        color: #fff;
+        padding-top: 15px;
+      }
+
+      .sidebar ul li {
+        list-style: none;
+        padding: 20px 10px;
+      }
+
+      .sidebar ul li a {
+        text-decoration: none;
+        color: white;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 20px;
+      }
+
+      .table {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .table h1 {
+        text-align: left;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      thead {
+        background-color: #333;
+        color: #fff;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tbody tr:hover {
+        background-color: #ddd;
+      }
+      .sidebar ul li.active {
+        background-color: #00adb3; /* Màu xanh cho trang hiện tại */
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../../layouts/header'); -%>
+
+    <div class="container">
+      <%- include('../../layouts/sidebar'); -%>
+
+      <div class="table">
+        <h1>Danh sách cuộc hẹn</h1>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tên bác sĩ</th>
+                <th>Tên khách hàng</th>
+                <th>Số phòng</th>
+                <th>Ngày</th>
+                <th>Giờ</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% appointments.forEach((appointment, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= appointment.DoctorName %></td>
+                <td><%= appointment.CustomerName %></td>
+                <td><%= appointment.Room_Number %></td>
+                <td><%= appointment.Date %></td>
+                <td><%= appointment.Time %></td>
+                <td><%= appointment.Status %></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

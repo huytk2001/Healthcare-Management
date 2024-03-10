@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/create_appointment.css" />
+  </head>
+  <body>
+    <%- include('../../layouts/header'); -%>
+
+    <div class="create-appointment">
+      <div class="create-appointment-container">
+        <div class="doctor-info-container">
+          <h1>Đặt lịch khám</h1>
+          <div class="doctor-info">
+            <h2>Thông tin bác sĩ</h2>
+            <% if (doctorInfo) { %>
+            <input
+              type="hidden"
+              name="user_id_doctor"
+              value="<%= doctorInfo.User_Id %>"
+            />
+            <p><strong>Tên bác sĩ:</strong> <%= doctorInfo.Name %></p>
+            <p><strong>Email:</strong> <%= doctorInfo.Email %></p>
+            <p><strong>Số điện thoại:</strong> <%= doctorInfo.Phone %></p>
+            <% } else { %>
+            <p>Không có thông tin bác sĩ.</p>
+            <% } %>
+          </div>
+        </div>
+        <div class="room-info">
+          <h2>Phòng: <%= doctorInfo.Room_Number %></h2>
+        </div>
+        <div class="time-info">
+          <h2>Thời gian</h2>
+          <p><strong>Khung giờ:</strong> <%= time %></p>
+          <p><strong>Ngày:</strong> <%= date %></p>
+        </div>
+        <div class="cost">
+          <h2>Chi phí khám: 300.000đ</h2>
+        </div>
+        <div class="customer-info">
+          <form action="/create_appointment" method="post">
+            <label for="customerName">Họ và tên</label>
+            <input type="text" id="customerName" name="customerName" required />
+
+            <label for="customerGender">Giới tính</label>
+            <input
+              type="text"
+              id="customerGender"
+              name="customerGender"
+              required
+            />
+
+            <label for="customerPhone">Số điện thoại</label>
+            <input
+              type="text"
+              id="customerPhone"
+              name="customerPhone"
+              required
+            />
+
+            <label for="customerDOB">Ngày tháng năm sinh</label>
+            <input type="date" id="customerDOB" name="customerDOB" required />
+
+            <label for="customerAddress">Địa chỉ</label>
+            <input
+              type="text"
+              id="customerAddress"
+              name="customerAddress"
+              required
+            />
+
+            <input type="hidden" name="userId" value="<%= user.userId %>" />
+
+            <input
+              type="hidden"
+              name="doctorId"
+              value="<%= doctorInfo.Doctor_id %>"
+            />
+
+            <input
+              type="hidden"
+              name="roomId"
+              value="<%= doctorInfo.Room_Number %>"
+            />
+
+            <input type="hidden" name="appointmentTime" value="<%= time %>" />
+            <input type="hidden" name="appointmentDate" value="<%= date %>" />
+
+            <button type="submit">Đặt lịch</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <%- include('../../layouts/footer'); -%>
+  </body>
+</html>

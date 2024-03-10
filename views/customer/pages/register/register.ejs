@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="css/register.css" />
+  </head>
+  <body>
+    <div class="login">
+      <div class="login-container">
+        <h2>Đăng ký khách hàng</h2>
+
+        <form action="/register" method="post">
+          <label for="email">Địa chỉ email:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="password">Mật khẩu:</label>
+          <input type="password" id="password" name="password" required />
+
+          <% if (messages.success) { %>
+          <div
+            id="flash-message"
+            class="success-flash"
+            style="color: green; margin-bottom: 10px"
+          >
+            <%= messages.success %>
+          </div>
+          <% } %> <% if (messages.error) { %>
+          <div
+            id="flash-message"
+            class="error-flash"
+            style="color: red; margin-bottom: 10px"
+          >
+            <%= messages.error %>
+          </div>
+          <% } %>
+          <button type="submit">Đăng ký</button>
+        </form>
+      </div>
+    </div>
+    <script>
+      setTimeout(function () {
+        document.querySelector(".success-flash").style.display = "none";
+        document.querySelector(".error-flash").style.display = "none";
+      }, 4000);
+    </script>
+  </body>
+</html>

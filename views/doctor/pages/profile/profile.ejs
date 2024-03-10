@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+      }
+
+      .sidebar {
+        width: 300px;
+        height: 100vh;
+        background-color: #343a40;
+        color: #fff;
+        padding-top: 15px;
+        overflow: hidden;
+      }
+
+      .sidebar ul {
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar ul li {
+        width: 300px;
+        list-style: none;
+        padding: 20px 10px;
+      }
+
+      .sidebar ul li a {
+        text-decoration: none;
+        color: white;
+      }
+
+      .doctor-info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .doctor-info h1 {
+        font-size: 20px;
+        color: var(--PrimaryBlue);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      thead {
+        background-color: #333;
+        color: #fff;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tbody tr:hover {
+        background-color: #ddd;
+      }
+      .sidebar ul li.active {
+        background-color: #00adb3;
+      }
+
+      .container .doctor-info {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .container .doctor-info p {
+        margin: 10px 0;
+      }
+
+      .container .doctor-info p strong {
+        margin-right: 10px;
+      }
+
+      .container .doctor-info p:last-child {
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../../layouts/header'); -%>
+
+    <div class="container">
+      <%- include('../../layouts/sidebar'); -%>
+
+      <div class="doctor-info">
+        <h1>Hồ sơ cá nhân</h1>
+        <% if (doctorInfo) { %>
+        <p><strong>Tên bác sĩ:</strong> <%= doctorInfo.Name %></p>
+        <p><strong>Email:</strong> <%= doctorInfo.Email %></p>
+        <p><strong>Số điện thoại:</strong> <%= doctorInfo.Phone %></p>
+        <p><strong>Địa chỉ:</strong> <%= doctorInfo.Address %></p>
+        <p><strong>Chuyên khoa:</strong> <%= doctorInfo.Specialty1 %></p>
+        <p><strong>Đa khoa:</strong> <%= doctorInfo.Specialty2 %></p>
+        <!-- Các trường thông tin khác của bác sĩ -->
+        <% } else { %>
+        <p>Không có thông tin bác sĩ.</p>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>

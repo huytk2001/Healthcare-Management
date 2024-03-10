@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+      }
+
+      .sidebar {
+        width: 300px;
+        height: 100vh;
+        background-color: #343a40;
+        color: #fff;
+        padding-top: 15px;
+        overflow: hidden;
+      }
+
+      .sidebar ul li {
+        width: 300px;
+        list-style: none;
+        padding: 20px 10px;
+      }
+
+      .sidebar ul li a {
+        text-decoration: none;
+        color: white;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 20px;
+      }
+
+      .table h1 {
+        text-align: left;
+      }
+
+      .table {
+        width: 100%;
+        padding: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      thead {
+        background-color: #333;
+        color: #fff;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tbody tr:hover {
+        background-color: #ddd;
+      }
+      .sidebar ul li.active {
+        background-color: #00adb3; /* Màu xanh cho trang hiện tại */
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../../layouts/header'); -%>
+
+    <div class="container">
+      <%- include('../../layouts/sidebar'); -%>
+
+      <div class="table">
+        <h1>Danh sách cuộc hẹn</h1>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại khách hàng</th>
+                <th>Giới tính khách hàng</th>
+                <th>Năm sinh khách hàng</th>
+                <th>Phòng</th>
+                <th>Ngày</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% function formatDate(dateString) { const options = { year:
+              'numeric', month: '2-digit', day: '2-digit' }; const formattedDate
+              = new Date(dateString).toLocaleDateString('en-GB', options);
+              return formattedDate; } %> <% appointments.forEach((appointment,
+              index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= appointment.CustomerName %></td>
+                <td><%= appointment.CustomerPhone %></td>
+                <td><%= appointment.CustomerGender %></td>
+                <td><%= formatDate(appointment.CustomerDOB) %></td>
+                <td><%= appointment.RoomNumber %></td>
+                <td><%= appointment.Date %></td>
+                <td><%= appointment.Time %></td>
+                <td>
+                  <select name="status" id="status<%= index %>" onchange="updateStatus('<%= appointment.Appointment_id %>', this.value)">
+                    <option value="Đang xử lý" <%= appointment.Status === 'Đang xử lý' ? 'selected' : '' %>>Đang xử lý</option>
+                    <option value="Đã duyệt" <%= appointment.Status === 'Đã duyệt' ? 'selected' : '' %>>Đã duyệt</option>
+                    <option value="Đã từ chối" <%= appointment.Status === 'Đã từ chối' ? 'selected' : '' %>>Đã từ chối</option>
+                  </select>
+                </td>
+                              
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function updateStatus(appointmentId, newStatus) {
+        fetch(`/doctor/updateStatus/${appointmentId}/${newStatus}`, {
+          method: 'PUT',
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log(`Status updated to ${newStatus}`);
+          } else {
+            console.error('Failed to update status');
+          }
+        })
+        .catch(error => {
+          console.error('Error updating status:', error);
+        });
+      }
+    </script>
+    
+  </body>
+</html>

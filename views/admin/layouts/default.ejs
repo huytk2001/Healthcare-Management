@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+      }
+
+      .sidebar {
+        width: 250px;
+        height: 100%;
+        background-color: #343a40;
+        color: #fff;
+        padding-top: 15px;
+      }
+
+      .sidebar ul li {
+        list-style: none;
+        padding: 20px 10px;
+      }
+
+      .sidebar ul li a {
+        text-decoration: none;
+        color: white;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <%- include('header'); -%>
+
+    <!-- Container for Sidebar and Main Content -->
+    <div class="container">
+      <!-- Sidebar -->
+      <%- include('sidebar'); -%>
+
+      <!-- Main Content -->
+      <div class="main-content"><%- content %></div>
+    </div>
+  </body>
+</html>
